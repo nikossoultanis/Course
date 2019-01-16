@@ -1,0 +1,47 @@
+SELECT user.name AS Όνομα , user.surname AS Επώνυμο , etaireia.name AS Όνομα_Εταιρείας ,job.id AS ID_θέσης ,job.salary AS Μισθός, COUNT(applies.job_id) AS Αριθμός_Αιτήσεων
+FROM job INNER JOIN recruiter
+ON job.recruiter = recruiter.username
+INNER JOIN user 
+ON recruiter.username = user.username
+INNER JOIN etaireia
+ON recruiter.firm = etaireia.AFM
+INNER JOIN applies
+ON job.id = applies.job_id
+WHERE job.salary > 1900
+GROUP BY applies.job_id
+
+
+
+SELECT candidate.username AS Όνομα, candidate.certificates AS Αρχείο_Πτυχίων,has_degree.grade AS Βαθμός_Πτυχίου, COUNT(candidate.username) AS Αριθμός_Πτυχίων,
+AVG(has_degree.grade) AS Μέσος_Όρος
+FROM candidate INNER JOIN has_degree
+ON candidate.username = has_degree.cand_usrname
+GROUP BY candidate.username
+HAVING COUNT(candidate.username) > 1
+
+
+SELECT candidate.username,COUNT(applies.cand_usrname), AVG(job.salary)
+FROM candidate INNER JOIN applies
+ON candidate.username = applies.cand_usrname
+INNER JOIN job
+ON applies.job_id = job.id
+WHERE job.salary > 1800
+GROUP BY cand_usrname
+
+####################################################################################################################################################################################################
+
+SELECT etaireia.name,antikeim.descr, antikeim.title
+FROM etaireia INNER JOIN recruiter
+ON etaireia.AFM = recruiter.firm
+INNER JOIN job
+ON recruiter.username = job.recruiter
+INNER JOIN requires
+ON job.id = requires.job_id
+INNER JOIN antikeim
+ON requires.antikeim_title = antikeim.title
+WHERE requires.antikeim_title LIKE '%Programm%' AND job.edra ='Patra, Greece'
+
+####################################################################################################################################################################################################
+
+DELIMITER $
+CREATE PROCEDURE first (IN id INT(16))
