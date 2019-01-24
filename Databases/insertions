@@ -14,21 +14,14 @@ VALUES
 
 
 
-INSERT INTO sector (title, descr, subsec, supersec)
-VALUES
-("null","null","null", "null");
-
-INSERT INTO sector (title, descr, subsec, supersec)
-VALUES
-("Computer Engineering","HARD","null","null");
-
-INSERT INTO sector (title, descr, subsec, supersec)
-VALUES
-("MySQL", "HARD", "null", "Databases");
-
-INSERT INTO sector (title, descr, subsec, supersec)
-VALUES
-("Databases","MEDIUM DIFFICULTY","MySQL", "Computer Engineering");
+INSERT INTO sector (title, etaireia, descr) VALUES
+('marketing', '123432211', 'listening the people'),
+('architecture', '123432211', 'make it from zero');
+INSERT INTO sector (title, etaireia, descr, supersec) VALUES
+('design', '123432211', 'designing apps', 'marketing'),
+('create', '123432211', 'creating apps', 'design'),
+('new_technologies', '123432211', 'design the future', 'architecture'),
+('innovating', '123432211', 'INNOVATING', 'new_technologies');
 
 
 
