@@ -1,0 +1,42 @@
+INSERT INTO interviews (recruiter, candidate, jobid, interv_start, duration, comments, score)
+VALUES
+('msmith', 'cleogeo', 2, '2018-05-01', '01:27:36', "OK", 40);
+
+INSERT INTO interviews (recruiter, candidate, jobid, interv_start, duration, comments, score)
+VALUES
+('varcon82', 'lionarF', 3, '2017-02-12', '00:31:59', "FINE", 51);
+
+INSERT INTO interviews (recruiter, candidate, jobid, interv_start, duration, comments, score)
+VALUES
+('bettyg', 'liagourma', 1, '2019-01-01', '02:10:01', "EXCELLENT", 100);
+
+
+
+
+
+INSERT INTO sector (title, descr, subsec, supersec)
+VALUES
+("null","null","null", "null");
+
+INSERT INTO sector (title, descr, subsec, supersec)
+VALUES
+("Computer Engineering","HARD","null","null");
+
+INSERT INTO sector (title, descr, subsec, supersec)
+VALUES
+("MySQL", "HARD", "null", "Databases");
+
+INSERT INTO sector (title, descr, subsec, supersec)
+VALUES
+("Databases","MEDIUM DIFFICULTY","MySQL", "Computer Engineering");
+
+
+
+
+INSERT INTO history (id, user, logdate, success, action_type, name_table)
+VALUES
+('1','bettyg','2013-01-17 00:00:00', '1', "UPDATE","candidate");
+
+INSERT INTO history (id, user, logdate, success, action_type, name_table)
+VALUES
+('NULL','msmith','2019-02-26 13:12:59', '1', "UPDATE","recruiter");
