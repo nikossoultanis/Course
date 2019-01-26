@@ -42,6 +42,11 @@ ON requires.antikeim_title = antikeim.title
 WHERE requires.antikeim_title LIKE '%Programm%' AND job.edra ='Patra, Greece'
 
 ####################################################################################################################################################################################################
-
+SELECT recruiter,avg(salary),count(*) AS jobs,count(*) AS interviews
+FROM job INNER JOIN recruiter ON recruiter.job = username.recruiter
+INNER JOIN interviews ON username.recruiter = recruiter.interviews
+WHERE jobs >= 2
+GROUP BY recruiter
+;
 DELIMITER $
 CREATE PROCEDURE first (IN id INT(16))
