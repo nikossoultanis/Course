@@ -49,4 +49,64 @@ WHERE jobs >= 2
 GROUP BY recruiter
 ;
 DELIMITER $
-CREATE PROCEDURE first (IN id INT(16))
+
+DROP PROCEDURE IF EXISTS proc1
+DELIMITTER $
+CREATE PROCEDURE proc1(jid)
+BEGIN
+DECLARE done BOOLEAN DEFAULT FALSE;
+DECLARE appliers VARCHAR(12);
+DECLARE reason TEXT;
+DECLARE bad_appl BOOLEAN DEFAULT FALSE;
+
+DECLARE crsr_appliers CURSOR FOR
+SELECT cand_usrname FROM applies WHERE job_id=jid;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done=TRUE;
+OPEN appliers;
+
+appl_loop : LOOP
+FETCH crsr_appliers INTO appliers;
+
+IF done THEN
+LEAVE appl_loop;
+END IF;
+
+SET bad_appl = 0;
+SET reason = "";
+
+SELECT cand_usrname INTO inter_cand FROM interviews WHERE cand_usrname = appliers;
+IF inter_cand IS NULL THEN
+SET reason = CONCAT(reason, "not yet interviewd");
+SET bad_candidate = 1;
+ELSE
+SELECT AVG(interviews.personality), SUM(interviews.education), SUM(interviews.experience) INTO personal, educ, exper
+FROM interviews WHERE jobid=jid AND candidate = appliers;
+END IF;
+
+IF personal = 0 THEN
+SET reason = CONCAT(reason,"FAILED INTERVIEW");
+SET bad_candidate = 1;
+END IF;
+
+IF educ = 0 THEN
+SET reason = CONCAT(reason,"INADEQUATE EDUCATION");
+SET bad_candidate = 1;
+END IF;
+IF exper = 0 THEN
+SET reason = CONCAT(reason,"NO PRIOR EXPERIENCE");
+SET bad_candidate = 1;
+END IF;
+
+IF bad_candidate = 1 THEN
+SELECT uname, reason;
+END IF;
+END LOOP;
+SELECT jobid.interviews, candidate.interviews, SUM(personality,education,experience) as score, personality.interviews, education.interviews, experience.interviews, count(*) as interviewss
+FROM interviews
+WHERE jobid=jobid.interviews AND personality.interviews > 0 AND education.interviews > 0 AND experience.interviews > 0
+GROUP BY candidate.interviews
+ORDER by personality.interviews;
+
+CLOSE appliers;
+END$
+
